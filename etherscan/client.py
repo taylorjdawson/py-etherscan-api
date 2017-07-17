@@ -49,7 +49,7 @@ class Client(object):
         if req.status_code == 200:
             # Check for empty response
             if req.text:
-                return json.loads(req.text)
+                return type('', (object,), json.loads(req.text))
             else:
                 print("Invalid Request")
                 exit()

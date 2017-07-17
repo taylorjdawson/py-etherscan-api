@@ -26,7 +26,7 @@ class Tokens(Client):
         self.module = self.URL_BASES['module'] + 'stats'
         self.make_url(call_type='tokensupply')
         req = self.connect()
-        return req['result']
+        return req.result
 
     def get_token_balance(self, address):
         self.address = self.URL_BASES['address'] + address
@@ -34,4 +34,4 @@ class Tokens(Client):
         self.action = self.URL_BASES['action'] + 'tokenbalance'
         self.make_url(call_type='tokenbalance')
         req = self.connect()
-        return req['result']
+        return req.result

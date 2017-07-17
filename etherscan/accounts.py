@@ -38,14 +38,14 @@ class Account(Client):
         self.tag = self.URL_BASES['tag'] + 'latest'
         self.make_url(call_type='transactions')
         req = self.connect()
-        return req['result']
+        return req.result
 
     def get_balance_multiple(self):
         self.action = self.URL_BASES['action'] + 'balancemulti'
         self.tag = self.URL_BASES['tag'] + 'latest'
         self.make_url(call_type='balance')
         req = self.connect()
-        return req['result']
+        return req.result
 
     def get_transaction_page(self, page=1, offset=10000, sort='asc', internal=False) -> list:
         """
@@ -86,7 +86,7 @@ class Account(Client):
         self.sort = self.URL_BASES['sort'] + sort
         self.make_url(call_type='transactions')
         req = self.connect()
-        return req['result']
+        return req.result
 
     def get_all_transactions(self, offset=10000, sort='asc', internal=False) -> list:
         if internal:
@@ -102,12 +102,12 @@ class Account(Client):
         while True:
             self.make_url(call_type='transactions')
             req = self.connect()
-            if "No transactions found" in req['message']:
+            if "No transactions found" in req.message:
                 print("Total number of transactions: {}".format(len(trans_list)))
                 self.page = ''
                 return trans_list
             else:
-                trans_list += req['result']
+                trans_list += req.result
                 # Find any character block that is a integer of any length
                 page_number = re.findall(r'[1-9](?:\d{0,2})(?:,\d{3})*(?:\.\d*[1-9])?|0?\.\d*[1-9]|0', self.page)
                 print("page {} added".format(page_number[0]))
@@ -130,7 +130,7 @@ class Account(Client):
         self.offset = self.URL_BASES['offset'] + str(offset)
         self.make_url(call_type='blocks')
         req = self.connect()
-        return req['result']
+        return req.result
 
     def get_all_blocks_mined(self, blocktype='blocks', offset=10000) -> list:
         self.action = self.URL_BASES['action'] + 'getminedblocks'
@@ -141,12 +141,12 @@ class Account(Client):
         while True:
             self.make_url(call_type='blocks')
             req = self.connect()
-            print(req['message'])
-            if "No transactions found" in req['message']:
+            print(req.message)
+            if "No transactions found" in req.message:
                 print("Total number of blocks mined: {}".format(len(blocks_list)))
                 return blocks_list
             else:
-                blocks_list += req['result']
+                blocks_list += req.result
                 # Find any character block that is a integer of any length
                 page_number = re.findall(r'[1-9](?:\d{0,2})(?:,\d{3})*(?:\.\d*[1-9])?|0?\.\d*[1-9]|0', self.page)
                 print("page {} added".format(page_number[0]))

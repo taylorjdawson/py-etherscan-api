@@ -23,4 +23,4 @@ class Stats(Client):
         self.action = self.URL_BASES['action'] + 'ethprice'
         self.make_url(call_type='stats')
         req = self.connect()
-        return req['result']
+        return req.result

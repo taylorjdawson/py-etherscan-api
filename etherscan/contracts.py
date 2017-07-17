@@ -18,4 +18,4 @@ class Contract(Client):
         self.action = self.URL_BASES['action'] + 'getabi'
         self.make_url(call_type='getabi')
         req = self.connect()
-        return req['result']
+        return req.result
