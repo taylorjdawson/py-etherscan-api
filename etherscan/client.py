@@ -74,25 +74,20 @@ class Client(object):
         self.url = self.PREFIX + ''.join([param + val if val else '' for param, val in self.url_dict.items()])
 
     def connect(self):
-        try:
-            req = self.http.get(self.url)
-        except requests.exceptions.ConnectionError:
-            print("Connection refused")
-            exit()
 
-        if req.status_code == 200:
-            # Check for empty response
-            if req.text:
-                if req.json()['status'] == '1':
-                    return req.json()
-                else:
-                    print(req.json()['message'])
-                    exit()
-            else:
-                print("Invalid Request")
-                exit()
+        req = self.http.get(self.url)
+
+        # This will raise an HTTPError if the HTTP request returned an unsuccessful status code.
+        req.raise_for_status()
+
+        # Check for empty response; ensuring that the api user will be guaranteed three json fields
+        if not req.text:
+            raise EmptyResponseException
+
+        if req.json()['status'] == '1':
+            return req.json()
         else:
-            print("Problem with connection, status code: ", req.status_code)
+            print(req.json()['message'])
             exit()
 
     def check_and_get_api(self):
@@ -100,3 +95,14 @@ class Client(object):
             pass
         else:
             self.url_dict[self.API_KEY] = input('Please type your EtherScan.io API key: ')
+
+
+class EmptyResponseException(Exception):
+    """ Custom Exception to be thrown when the http response is empty.
+
+        Occasionally the etherscan-api will return an http status code of '200'
+        but have an empty response. This exception will be thrown in that case.
+
+    """
+    def __init__(self):
+        Exception.__init__(self, "The API returned an empty response")
