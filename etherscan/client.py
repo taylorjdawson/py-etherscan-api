@@ -74,7 +74,6 @@ class Client(object):
         self.url = self.PREFIX + ''.join([param + val if val else '' for param, val in self.url_dict.items()])
 
     def connect(self):
-
         req = self.http.get(self.url)
 
         # This will raise an HTTPError if the HTTP request returned an unsuccessful status code.
@@ -84,11 +83,7 @@ class Client(object):
         if not req.text:
             raise EmptyResponseException
 
-        if req.json()['status'] == '1':
-            return req.json()
-        else:
-            print(req.json()['message'])
-            exit()
+        return req.json()
 
     def check_and_get_api(self):
         if self.url_dict[self.API_KEY]:  # Check if api_key is empty string
@@ -104,5 +99,6 @@ class EmptyResponseException(Exception):
         but have an empty response. This exception will be thrown in that case.
 
     """
+
     def __init__(self):
         Exception.__init__(self, "The API returned an empty response")
