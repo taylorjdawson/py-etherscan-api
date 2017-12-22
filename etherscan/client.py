@@ -1,6 +1,7 @@
 import requests
 import collections
 
+
 #  Assume user puts his API key in the api_key.json file under variable name "key"
 class Client(object):
     dao_address = '0xbb9bc244d798123fde783fcc1c72d3bb8c189413'
@@ -82,7 +83,7 @@ class Client(object):
         except requests.exceptions.ConnectionError:
             print("Connection refused")
             exit()
-            
+
         if req.status_code == 200:
             # Check for empty response
             if req.text:
