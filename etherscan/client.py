@@ -4,7 +4,7 @@ import collections
 
 #  Assume user puts his API key in the api_key.json file under variable name "key"
 class Client(object):
-    dao_address = '0xbb9bc244d798123fde783fcc1c72d3bb8c189413'
+    DAO_ADDRESS = '0xbb9bc244d798123fde783fcc1c72d3bb8c189413'
 
     # Constants
     PREFIX = 'https://api.etherscan.io/api?'

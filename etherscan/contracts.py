@@ -2,7 +2,7 @@ from .client import Client
 
 
 class Contract(Client):
-    def __init__(self, address=Client.dao_address, api_key='YourApiKeyToken'):
+    def __init__(self, address=Client.DAO_ADDRESS, api_key='YourApiKeyToken'):
         Client.__init__(self, address=address, api_key=api_key)
         self.url_dict[self.MODULE] = 'contract'
 
