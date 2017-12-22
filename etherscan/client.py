@@ -32,9 +32,8 @@ class Client(object):
     INDEX = '&index='
     API_KEY = '&apikey='
 
-    url_dict = {}
-
     def __init__(self, address, api_key=''):
+        self.url = None
         self.http = requests.session()
         self.url_dict = collections.OrderedDict([
 
@@ -61,9 +60,7 @@ class Client(object):
             (self.API_KEY, api_key)]
         )
 
-        # self.url_dict[API_KEY] = str(api_key)
         self.check_and_get_api()
-        # self.key = self.URL_BASES['key'] + self.API_KEY
 
         if (len(address) > 20) and (type(address) == list):
             print("Etherscan only takes 20 addresses at a time")
@@ -77,7 +74,6 @@ class Client(object):
         self.url = self.PREFIX + ''.join([param + val if val else '' for param, val in self.url_dict.items()])
 
     def connect(self):
-        # TODO: deal with "unknown exception" error
         try:
             req = self.http.get(self.url)
         except requests.exceptions.ConnectionError:
